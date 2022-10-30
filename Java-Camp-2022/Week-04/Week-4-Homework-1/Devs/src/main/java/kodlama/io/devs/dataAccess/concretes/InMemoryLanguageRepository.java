@@ -33,22 +33,10 @@ public class InMemoryLanguageRepository implements LanguageRepository {
         return null;
     }
 
-    public boolean isExist(Language language){
-        boolean control = false;
-        for (Language lng : languages){
-            if(lng.getName().equals(language.getName()) || lng.getId() == language.getId()){
-                control = true;
-            }
-        }
-        return control;
-    }
+
 
     public void add(Language language){
-        if(!isExist(language)){
-            if(!language.getName().equals("")){
-                languages.add(language);
-            }
-        }
+        languages.add(language);
     }
 
     public void delete(int id){
@@ -66,6 +54,5 @@ public class InMemoryLanguageRepository implements LanguageRepository {
                 lng.setName(language.getName());
             }
         }
-
     }
 }

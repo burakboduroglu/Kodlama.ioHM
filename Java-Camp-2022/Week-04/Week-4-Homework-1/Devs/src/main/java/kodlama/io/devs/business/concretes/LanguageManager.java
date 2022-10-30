@@ -28,7 +28,13 @@ public class LanguageManager implements LanguageService {
     }
 
     public void add(Language language){
-        languageRepository.add(language);
+        if(!isExist(language)){
+            if(!language.getName().equals("")){
+                languageRepository.add(language);
+            } else {
+                throw new RuntimeException("Name must not be null");
+            }
+        }
     }
 
     @Override
@@ -38,7 +44,21 @@ public class LanguageManager implements LanguageService {
 
     @Override
     public void update(Language language) {
-        languageRepository.update(language);
+        if(!language.getName().equals("")){
+            languageRepository.update(language);
+        } else {
+            throw new RuntimeException("Name must not be null");
+        }
+    }
+
+    public boolean isExist(Language language){
+        boolean control = false;
+        for (Language lng : languageRepository.getAll()){
+            if(lng.getName().equals(language.getName()) || lng.getId() == language.getId()){
+                control = true;
+            }
+        }
+        return control;
     }
 
 }
