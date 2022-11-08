@@ -1,4 +1,4 @@
-package kodlama.io.devs.dataAccess.languageTech;
+package kodlama.io.devs.business.responses.languageTech;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -4,8 +4,8 @@ import kodlama.io.devs.business.abstracts.LanguageTechService;
 import kodlama.io.devs.business.requests.languageTech.CreateLanguageTechRequest;
 import kodlama.io.devs.business.requests.languageTech.DeleteLanguageTechRequest;
 import kodlama.io.devs.business.requests.languageTech.UpdateLanguageTechRequest;
-import kodlama.io.devs.dataAccess.languageTech.GetAllLanguageTechsResponse;
-import kodlama.io.devs.dataAccess.languageTech.GetLanguageTechByIdResponse;
+import kodlama.io.devs.business.responses.languageTech.GetAllLanguageTechsResponse;
+import kodlama.io.devs.business.responses.languageTech.GetLanguageTechByIdResponse;
 import kodlama.io.devs.dataAccess.abstracts.LanguageRepository;
 import kodlama.io.devs.dataAccess.abstracts.LanguageTechRepository;
 import kodlama.io.devs.entities.concretes.Language;
@@ -33,7 +33,7 @@ public class LanguageTechManager implements LanguageTechService {
         languageTechnology.setName(createLanguageTechRequest.getName());
         Language language = languageRepository.findById(createLanguageTechRequest.getLanguageId()).get();
         languageTechnology.setLanguage(language);
-        if(!isExist(languageTechnology)){
+        if (!isExist(languageTechnology)) {
             languageTechRepository.save(languageTechnology);
         } else {
             throw new RuntimeException("This technology has already added.");
@@ -46,7 +46,7 @@ public class LanguageTechManager implements LanguageTechService {
         List<LanguageTechnology> techLanguages = languageTechRepository.findAll();
         List<GetAllLanguageTechsResponse> techLanguagesResponse = new ArrayList<>();
 
-        for (LanguageTechnology techLanguage : techLanguages){
+        for (LanguageTechnology techLanguage : techLanguages) {
             GetAllLanguageTechsResponse responseItem = new GetAllLanguageTechsResponse();
             responseItem.setId(techLanguage.getId());
             responseItem.setName(techLanguage.getName());
@@ -66,13 +66,11 @@ public class LanguageTechManager implements LanguageTechService {
     public GetLanguageTechByIdResponse getId(int id) {
         LanguageTechnology languageTechnology = this.languageTechRepository.findById(id).get();
         GetLanguageTechByIdResponse getLanguageTechByIdResponse = new GetLanguageTechByIdResponse();
-        if(!isExist(languageTechnology)){
-            getLanguageTechByIdResponse.setLanguage(languageTechnology.getLanguage().getName());
-            getLanguageTechByIdResponse.setName(languageTechnology.getName());
-            getLanguageTechByIdResponse.setId(id);
-        } else {
-            throw new RuntimeException("This technology already exist.");
-        }
+
+        getLanguageTechByIdResponse.setLanguage(languageTechnology.getLanguage().getName());
+        getLanguageTechByIdResponse.setName(languageTechnology.getName());
+        getLanguageTechByIdResponse.setId(id);
+
 
         return getLanguageTechByIdResponse;
     }
@@ -86,12 +84,12 @@ public class LanguageTechManager implements LanguageTechService {
         this.languageTechRepository.save(languageTechnology);
     }
 
-    public boolean isExist(LanguageTechnology languageTechnology){
+    public boolean isExist(LanguageTechnology languageTechnology) {
         boolean exist = false;
         List<LanguageTechnology> languageTechnologies = languageTechRepository.findAll();
-        for (LanguageTechnology lngTech : languageTechnologies){
+        for (LanguageTechnology lngTech : languageTechnologies) {
             if (languageTechnology.getName().toLowerCase().equals(lngTech.getName().toLowerCase())) {
-                if(languageTechnology.getLanguage().equals(lngTech.getLanguage())){
+                if (languageTechnology.getLanguage().equals(lngTech.getLanguage())) {
                     exist = true;
                     return exist;
                 }
